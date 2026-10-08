@@ -1120,6 +1120,16 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""initialStateCheck"": false,
                     ""priority"": 0
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""788b3f3b-e150-4529-84c2-3c58d655991f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
                 }
             ],
             ""bindings"": [
@@ -1221,6 +1231,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""080dae4a-2bc4-4734-a69b-7576141d82ef"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1315,6 +1336,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_RunnerControl = asset.FindActionMap("RunnerControl", throwIfNotFound: true);
         m_RunnerControl_Move = m_RunnerControl.FindAction("Move", throwIfNotFound: true);
         m_RunnerControl_Jump = m_RunnerControl.FindAction("Jump", throwIfNotFound: true);
+        m_RunnerControl_Dash = m_RunnerControl.FindAction("Dash", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -1778,6 +1800,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private List<IRunnerControlActions> m_RunnerControlActionsCallbackInterfaces = new List<IRunnerControlActions>();
     private readonly InputAction m_RunnerControl_Move;
     private readonly InputAction m_RunnerControl_Jump;
+    private readonly InputAction m_RunnerControl_Dash;
     /// <summary>
     /// Provides access to input actions defined in input action map "RunnerControl".
     /// </summary>
@@ -1797,6 +1820,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "RunnerControl/Jump".
         /// </summary>
         public InputAction @Jump => m_Wrapper.m_RunnerControl_Jump;
+        /// <summary>
+        /// Provides access to the underlying input action "RunnerControl/Dash".
+        /// </summary>
+        public InputAction @Dash => m_Wrapper.m_RunnerControl_Dash;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1829,6 +1856,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @Dash.started += instance.OnDash;
+            @Dash.performed += instance.OnDash;
+            @Dash.canceled += instance.OnDash;
         }
 
         /// <summary>
@@ -1846,6 +1876,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @Dash.started -= instance.OnDash;
+            @Dash.performed -= instance.OnDash;
+            @Dash.canceled -= instance.OnDash;
         }
 
         /// <summary>
@@ -2114,5 +2147,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnJump(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Dash" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDash(InputAction.CallbackContext context);
     }
 }

@@ -5,8 +5,11 @@ public class PlayerTransform : MonoBehaviour, InputSystem_Actions.IRunnerControl
 {
     [SerializeField] private float forwardSpeed = 8f;
     [SerializeField] private float lateralSpeed = 7f;
+    [SerializeField] private float dashForce = 8f;
+    [SerializeField] private float dashCooldown = 0.75f;
     private InputSystem_Actions inputActions;
     private float moveInput;
+    private float dashCooldownTimer;
     private InputSystem_Actions.RunnerControlActions runnerActions;
 
     private void Awake()
@@ -34,6 +37,11 @@ public class PlayerTransform : MonoBehaviour, InputSystem_Actions.IRunnerControl
 
     private void FixedUpdate()
     {
+        if (dashCooldownTimer > 0f)
+        {
+            dashCooldownTimer -= Time.fixedDeltaTime;
+        }
+
         Vector3 movement = new Vector3(moveInput * lateralSpeed, 0f, forwardSpeed) * Time.deltaTime;
         transform.Translate(movement, Space.World);
     }
@@ -46,5 +54,16 @@ public class PlayerTransform : MonoBehaviour, InputSystem_Actions.IRunnerControl
     public void OnJump(InputAction.CallbackContext context)
     {
         
+    }
+
+    public void OnDash(InputAction.CallbackContext context)
+    {
+        if (!context.performed || dashCooldownTimer > 0f)
+        {
+            return;
+        }
+
+        dashCooldownTimer = dashCooldown;
+        transform.Translate(Vector3.forward * dashForce * Time.fixedDeltaTime, Space.World);
     }
 }

@@ -70,4 +70,9 @@ public class Player : MonoBehaviour, InputSystem_Actions.IRunnerControlActions
     {
         isJumping = context.performed;
     }
+
+    public void OnDash(InputAction.CallbackContext context)
+    {
+        throw new System.NotImplementedException();
+    }
 }
